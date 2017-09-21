@@ -47,6 +47,13 @@ public class Application {
         //Display a list of contacts after the update
         System.out.printf("%n%nAfter the update%n%n");
         fetchAllContacts().stream().forEach(System.out::println);
+
+        Contact contactToDelete = findContactById(1);
+
+        delete(contactToDelete);
+
+        System.out.printf("%n%nFirst contact deleted%n%n");
+        fetchAllContacts().stream().forEach(System.out::println);
     }
 
     private static Contact findContactById(int id) {
@@ -77,6 +84,18 @@ public class Application {
         session.getTransaction().commit();
 
         // Close the session
+        session.close();
+    }
+
+    private static void delete(Contact contact) {
+        Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        session.delete(contact);
+
+        session.getTransaction().commit();
+
         session.close();
     }
 
